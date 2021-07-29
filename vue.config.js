@@ -28,23 +28,20 @@ function resolve(dir) {
 
 module.exports = {
   ...config[projectName],
-  lintOnSave: true,
+  lintOnSave: false,
   // 基本路径
   // baseUrl: './',//vue-cli3.3以下版本使用
   publicPath: "./", // vue-cli3.3+新版本使用
   // 输出文件目录
   outputDir: "dist/" + projectName + "/",
   // eslint-loader 是否在保存的时候检查
-  lintOnSave: true,
   // 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
   assetsDir: "static",
   configureWebpack:{
     resolve:{
        alias:{
-          '@assets':'@/assets',
-          '@components':'@/components',
           '@admin': '@/projects/admin',
-          '@client': '@/projects/client',
+          '@client': '@/projects/client'
        }
     }
   }
