@@ -25,6 +25,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 app.use(morgan("dev"))
 app.use('/api',api)
+app.use('/serverImage', express.static(path.join(__dirname, 'serverImage')));
 app.get('/', (req, res) => {	　　  
     res.send('api'); 
 });

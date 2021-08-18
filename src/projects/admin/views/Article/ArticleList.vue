@@ -1,11 +1,11 @@
 <template>
   <div>
     <h3 style="margin-bottom:20px">文章列表</h3>
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="date" label="日期" width="180"> </el-table-column>
-      <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
-      <el-table-column prop="address" label="地址"> </el-table-column>
-    </el-table>
+    <div class="article-wrap">
+      <div class="articles">
+        <Card></Card>
+      </div>
+    </div>
     <div class="pagination-wrap">
       <el-pagination background layout="prev, pager, next" :total="1000">
       </el-pagination>
@@ -13,23 +13,60 @@
   </div>
 </template>
 <script>
+import Card from '../../components/Card.vue'
+import { getAirticle } from '../../api'
 export default {
   data() {
     return {
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        }
-      ],
+      list: [],
+      pageNum: 1,
+      pageSize: 10
     };
   },
+  components: {
+    Card
+  },
+  mounted() {
+    this.getAirticleData()
+  },
+  methods: {
+    // todo search filter
+    async getAirticleData() {
+      try {
+        const params = {
+          pageNum: this.pageNum,
+          pageSize: this.pageSize
+        }
+        const { data } = await getAirticle(params)
+        if(data.code == 0) {
+          this.list = data.data
+        } else {
+          this.$message({
+            type: 'error',
+            message: data.message
+          })
+        }
+      } catch {
+        this.$message({
+          type: 'error',
+          message: '网络错误（postAirticle）'
+        })
+      }
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
+.article-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  .articles {
+    width: 255px;
+  }
+}
 .pagination-wrap {
     margin-top: 20px;
-    text-align: right;
+    text-align: center;
 }
 </style>

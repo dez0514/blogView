@@ -5,8 +5,10 @@ const Counter = require("./counter");
 const ArticleSchema = new mongoose.Schema({
   id: {
     type: Number,
+    unique: true,
     require: true
   },
+  banner: { type: String },
   title: { type: String },
   content: { type: String },
   author: { type: String },

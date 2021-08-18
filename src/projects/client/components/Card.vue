@@ -86,7 +86,6 @@
           padding: 0 10px;
           line-height: 20px;
           position: relative;
-          display: inline-block;
           transition: padding 0.3s;
         }
         .tag-strip::after {

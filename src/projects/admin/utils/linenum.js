@@ -5,7 +5,7 @@ export const addCodeBtn = _ => {
   $('pre code').each(function () {
     let lines = $(this).text().split('\n').length - 1
     let title = $(this)[0].className.slice('language-'.length) // language-vue
-    // console.log(title)
+    console.log($(this))
     //添加有序列表
     let $numbering = $('<ol/>').addClass('pre-numbering')
     //添加复制按钮，此处使用的是element-ui icon 图标

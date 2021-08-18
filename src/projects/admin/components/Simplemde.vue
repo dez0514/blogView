@@ -1,8 +1,8 @@
 <template>
   <div>
     <textarea id="editor"></textarea>
-    <!-- <div @click="handleClick">btn</div>
-    <div class="markdown-body" v-html="content"></div> -->
+    <!-- <div @click="handleClick">btn</div> -->
+    <!-- <div class="markdown-body" v-html="content"></div> -->
   </div>
 </template>
 <script>
@@ -61,104 +61,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.editor-preview pre,
-.editor-preview-side pre {
-  padding: 10px;
-  margin: 10px 0;
-  font-size: 14px;
-  line-height: 1.4;
-  color: #fff;
-  background-color: #283646;
-  border-radius: 4px;
-}
-p img {
-  margin: 0 auto;
-  display: flex;
-}
 
-.CodeMirror,
-.CodeMirror-scroll {
-  min-height: 300px;
-}
-.CodeMirror {
-  height: 300px;
-}
-.markdown-body pre.code{
-    padding: 30px 0 10px 0;
-}
-pre.code {
-  position: relative;
-  border-radius: 5px;
-  /* border: 1px solid #c3ccd0; */
-  color: #fff;
-  background-color: #283646;
-  overflow: hidden;
-  padding-left: 60px !important;
-  code {
-    line-height: 1.4 !important;
-  }
-  ol.pre-numbering {
-    position: absolute;
-    top: 0;
-    left: 5px;
-    line-height: 1.4;
-    padding: 30px 0 10px 0;
-    list-style-type: none;
-    counter-reset: sectioncounter;
-    margin-bottom: 0;
-    li {
-      margin-top: 0 !important;
-      &:before {
-        content: counter(sectioncounter) "";
-        counter-increment: sectioncounter;
-        display: inline-block;
-        width: 40px;
-        text-align: center;
-        border-right: solid 1px rgba(255, 255, 255, 0.53);
-      }
-    }
-  }
-  i.code-copy {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #464d5e;
-    padding: 3px;
-    height: 12px;
-    width: 10px;
-    /* margin: 3px 3px 0 0; */
-    font-size: 11px;
-    border-radius: inherit;
-    color: #f1f1f1;
-    cursor: pointer;
-    display: none;
-  }
-  &:hover i.code-copy {
-    display: block;
-  }
-}
-pre.code::before {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  background-color: #fc625d;
-  width: 11px;
-  height: 11px;
-  left: 10px;
-  top: 10px;
-  box-shadow: 20px 0 #fdbc40, 40px 0 #35cd4b;
-  z-index: 2;
-}
-.edit-title {
-  z-index: 10;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 0;
-  line-height: 30px;
-  display: none;
-}
-.markdown-body pre.code:hover .edit-title {
-  display: block;
-}
 </style>

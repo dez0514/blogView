@@ -8,6 +8,9 @@ const config = {
         }
       },
       publicPath: './',
+      css: {
+        requireModuleExtension: true
+      },
       devServer: {
         port: 8085, // 端口地址
         open: false, // 是否自动打开浏览器页面

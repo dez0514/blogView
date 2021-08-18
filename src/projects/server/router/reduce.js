@@ -215,3 +215,32 @@ module.exports.findData = (model, req, res, ispage = false) => {
         })
     }
 }
+
+
+module.exports.findDataById = (model,req,res) => {
+    let id = req.query.id
+    if(!id) {
+        res.status(200).json({
+            code: 1,
+            message: 'id is require'
+        })
+        return 
+    }
+    model.findOne({id}, {
+        _id: 0 // 不返回_id字段
+    }, function (err, result) {
+        if (err) {
+            console.log('find error：' + err);
+            res.status(200).json({
+                code: 2,
+                message: '查询失败：' + err
+            })
+            return
+        }
+        res.status(200).json({
+            code: 0,
+            message: '查询成功',
+            data: result
+        })
+    })
+}
