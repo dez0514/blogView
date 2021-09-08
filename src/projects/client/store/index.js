@@ -8,7 +8,7 @@ export default createStore({
       { txt: "博客", routename: "home", icon: "book" },
       { txt: "归档", routename: "archive", icon: "archive" },
       { txt: "关于我", routename: "about", icon: "about" },
-      { txt: "留言板", routename: "comment", icon: "comment" }
+      // { txt: "留言板", routename: "comment", icon: "comment" }
     ],
     tags: [
       "javascript",

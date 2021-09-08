@@ -8,6 +8,8 @@
     "dev:client": "cross-env PROJECT_NAME=client vue-cli-service serve",
     "dev:server": "nodemon src/projects/server/app.js",
     "build": "vue-cli-service build",
+    "build:admin": "cross-env PROJECT_NAME=admin vue-cli-service build",
+    "build:client": "cross-env PROJECT_NAME=client vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
