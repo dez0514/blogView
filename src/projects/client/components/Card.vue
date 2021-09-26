@@ -1,5 +1,5 @@
 <template>
-  <div class="card-wrap">
+  <div class="card-wrap" @click="jumpToDetail">
     <div class="cover">
       <img src="../assets/1625043943540.png" alt="" />
     </div>
@@ -37,6 +37,25 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  data(){
+    return {
+
+    }
+  },
+  methods:{
+    jumpToDetail(){
+      this.$router.push({
+        path: '/article',
+        query:{
+          id:'1'
+        }
+      })
+    }
+  }
+}
+</script>
 <style lang="scss" scoped>
 .card-wrap {
   position: relative;

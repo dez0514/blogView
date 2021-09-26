@@ -1,7 +1,7 @@
 <template>
     <div class="footer-wrap">
         <div class="visitor">博客已运行：00天00小时00分00秒</div>
-        <div class="copy-right">保留版权 © 2021 •̀.̫•́✧ | Wintermelon All Rights Reserved</div>
+        <div class="copy-right">保留版权作者 Wintermelon</div>
         <div class="bn-num"><span class="bspan">昨天太近、明天太远</span>鄂ICP备2020019488号-1</div>
     </div>
 </template>

@@ -71,6 +71,7 @@
   height: 23px;
   .tags-scroll {
     overflow-x: auto;
+    /* overflow: hidden; */
     white-space: nowrap;
     .tag-strip {
       display: inline-block;
@@ -120,5 +121,29 @@
     display: -webkit-box;
     overflow: hidden;
     -webkit-line-clamp: 2;
+}
+@media screen and (max-width: 600px) {
+  .card-line-main {
+    padding: 5px 0 5px 10px;
+  }
+  .card-line {
+    padding-bottom: 15px;
+  }
+  .cover {
+    width: 80px;
+    height: 72px;
+    border-radius: 4px;
+    box-shadow: 0 6px 8px rgba(31, 45, 61, 0.2);
+  }
+  .cover:hover {
+    transform: translateY(6px);
+    box-shadow: 0 2px 3px rgba(31, 45, 61, 0.3);
+  }
+  .title {
+    font-size: 15px;
+  }
+  .desc {
+    display: none;
+  }
 }
 </style>

@@ -9,7 +9,7 @@ export const addCodeBtn = _ => {
     //添加有序列表
     let $numbering = $('<ol/>').addClass('pre-numbering')
     //添加复制按钮，此处使用的是element-ui icon 图标
-    let $copy = $('<i title="copy" class="el-icon-document"/>').addClass('code-copy')
+    let $copy = $('<i>copy</i>').addClass('code-copy')
     let $title = $('<span>' + title + '</span>').addClass('edit-title')
     $(this)
       .parent()

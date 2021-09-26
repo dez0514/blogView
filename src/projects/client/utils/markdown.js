@@ -28,7 +28,7 @@ const tocObj = {
     };
     const addLI = (anchor, text) => {
       result +=
-        '<li><a class="toc-link" href="#' + anchor + '">' + text + "<a></li>\n";
+        '<li><span class="toc-item"><a class="toc-link" href="#' + anchor + '">' + text + "</a></span></li>\n";
     };
 
     this.toc.forEach(function (item) {

@@ -101,7 +101,7 @@
       </div>
     </div>
     <div class="mobile">
-      <div class="header-app" :class="showMask ? 'act' : ''">
+      <div class="header-app" :class="animal == 'in' ? 'anim': animal == 'out' ? 'animb':''">
         <div class="header-btn" @click="showSidBar">
           <svg class="icon">
             <svg id="iconmenu" viewBox="0 0 1024 1024">
@@ -144,10 +144,13 @@
     </div>
   </div>
   <transition name="upin">
-      <div class="to-top" v-show="showTop" @click="toTop">
-        <img src="../assets/scroll.png" alt="">
-      </div>
+    <div class="up-icon" v-show="showTop" @click="toTop">
+      <svg class="icon" style="cursor: pointer">
+        <svg id="iconhuidaodingbu" viewBox="0 0 1024 1024"><path d="M860.623 163.952C765.506 68.835 639.04 16.451 504.522 16.451S243.538 68.835 148.421 163.952C53.3 259.071 0.918 385.537 0.918 520.055c0 134.517 52.384 260.983 147.503 356.101 95.117 95.119 221.584 147.503 356.101 147.503s260.983-52.384 356.101-147.503 147.503-221.585 147.503-356.101c0-134.518-52.384-260.984-147.503-356.103z m-356.101 829.81c-261.203 0-473.708-212.504-473.708-473.707 0-261.204 212.505-473.708 473.708-473.708 261.202 0 473.707 212.504 473.707 473.708 0 261.203-212.504 473.708-473.707 473.708z m23.157-701.9c-12.79-12.789-33.525-12.789-46.315 0l-162.898 162.9c-12.79 12.789-12.79 33.524 0 46.313 12.789 12.79 33.524 12.79 46.314 0l71.593-71.594c2.923-1.846 8.718-4.694 15.606-3.78 13.11 1.742 15.763 15.009 15.763 15.009v202.963a5.012 5.012 0 0 0 5.012 5.012h63.536a5.012 5.012 0 0 0 5.012-5.012V440.712s2.653-13.268 15.763-15.009c6.887-0.914 12.682 1.933 15.605 3.78l71.593 71.593c12.79 12.79 33.525 12.79 46.314 0 12.79-12.79 12.79-33.525 0-46.315L527.68 291.863z m8.611 419.564h-63.536a5.012 5.012 0 0 0-5.012 5.012v73.763a5.011 5.011 0 0 0 5.012 5.012h63.536a5.012 5.012 0 0 0 5.012-5.012v-73.763a5.012 5.012 0 0 0-5.012-5.012z"></path></svg>
+      </svg>
+    </div>
   </transition>
+ 
 </template>
 
 <script>
@@ -160,11 +163,21 @@ export default {
       hoverIndex: -1,
       showSearch: false,
       headerBg: false,
-      showTop: false
+      showTop: false,
+      animal: ''
     };
   },
+  watch:{
+    sideBarShow(val){
+      if(val) {
+        this.animal = 'in'
+      } else {
+        this.animal = 'out'
+      }
+    }
+  },
   computed: {
-    ...mapState(["showMask", "tablist"]),
+    ...mapState(["showMask", "tablist","sideBarShow"]),
     tabActRoute() {
       return this.$route.name;
     },
@@ -264,15 +277,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.to-top {
-  position: fixed;
-  top: 0;
+.up-icon {
+  position:fixed;
   right: 10px;
-  z-index: 22;
-  img {
-    display: block;
-    width: 42px;
+  bottom:60px;
+  z-index: 100;
+  .icon {
+    width: 34px;
+    height: 34px;
+    fill: currentColor;
+    overflow: hidden;
+    font-size: 18px;
+    margin-right: 5px;
   }
+}
+.up-icon:hover {
+  color: #409eff;
 }
 .upin-enter,
 .upin-enter-active {
@@ -284,35 +304,57 @@ export default {
 }
 @keyframes upinslide {
   0% {
-    transform: translate3d(0,-100%,0); //修改这个可以控制，上下左右动画，例如：100%为从右到左
     opacity: 0;
+    right: -100%;
   }
   100% {
-    transform: translate3d(0, 0, 0);
     opacity: 1;
+    right: 10px
   }
 }
 @keyframes upoutslide {
   0% {
-    transform: translate3d(0,0,0); //修改这个可以控制，上下左右动画，例如：100%为从右到左
     opacity: 0;
+    right: 10px;
   }
   100% {
-    transform: translate3d(0, -100%, 0);
     opacity: 1;
+    right: -100%;
+  }
+}
+.anim {
+  animation: animmove .5s linear forwards;
+}
+.animb {
+  animation: animback .5s linear forwards;
+}
+@keyframes animmove {
+  from {
+    transform: translateX(0) perspective(0) rotateY(0);
+  }
+  to {
+    transform: translateX(250px) perspective(600px) rotateY(10deg);
+  }
+}
+@keyframes animback {
+  from {
+   transform: translateX(250px) perspective(600px) rotateY(10deg);
+  }
+  to {
+   transform: translateX(0) perspective(0) rotateY(0);
   }
 }
 .header-wrapper {
-  z-index: 25;
+  z-index: 18;
   box-sizing: border-box;
-  // overflow-x: hidden;
+  overflow: hidden;
   // padding-bottom: 2px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
-  height: 57px;
+  /* height: 57px; */
 }
 .header-box {
   box-sizing: border-box;
@@ -532,11 +574,8 @@ export default {
   justify-content: space-between;
   box-shadow: 0 1px #d8e0ea, 0 0 transparent, 0 2px #fff;
   background-color: #fff;
-  transform: translateY(0);
-  transition: 0.5s;
-  &.act {
-    transform: translateY(-105%);
-  }
+  transform-origin: left 450px;
+  transition: transform .5s;
   .icon {
     width: 24px;
     height: 24px;
@@ -549,6 +588,9 @@ export default {
     padding-right: 16px;
     background-color: #fff;
   }
+}
+.mobile .header-app {
+  box-shadow: none;
 }
 .header-btn {
   display: flex;
@@ -564,9 +606,6 @@ export default {
   }
   .mobile {
     display: block;
-  }
-  .to-top {
-    display: none;
   }
 }
 </style>

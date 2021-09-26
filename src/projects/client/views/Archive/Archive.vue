@@ -36,6 +36,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .card-list {
+  overflow: hidden;
   display: grid;
   grid-template-columns: repeat(2, calc((100% - 18px) / 2));
   gap: 18px;
@@ -44,5 +45,13 @@ export default {
 .pagination-wrap {
   margin-top: 20px;
   text-align: center;
+}
+@media screen and (max-width: 990px) {
+  .card-list {
+    margin-top: 20px;
+    padding: 0 10px;
+    grid-template-columns: repeat(1, 100%);
+    gap: 0;
+  }
 }
 </style>
