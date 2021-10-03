@@ -1,6 +1,30 @@
 <template>
-    <div class="loader"></div>
+  <div class="loader-wrap" v-if="state.isShow">
+    <div class="loader" v-show="state.status === 0"></div>
+    <div class="text" v-show="state.status === 1">暂无数据</div>
+    <div class="text" style="cursor:pointer" v-show="state.status === 2" @click="handleRefresh">加载失败，点击重新加载</div>
+  </div>
 </template>
+<script>
+export default {
+  props: {
+    state: {
+      type: Object,
+      default:()=>{
+        return {
+          isShow: true,
+          status: 0 // 0 load,1 暂无数据,2 异常重新点击加载
+        }
+      }
+    }
+  },
+  methods:{
+    handleRefresh(){
+      this.$emit('refresh')
+    }
+  }
+}
+</script>
 <style lang="scss" scoped>
 $colors:
   hsla(337, 84, 48, 0.75)
@@ -11,6 +35,13 @@ $size: 2.5em;
 $thickness: 0.5em;
 $lat: ($size - $thickness) / 2;
 $offset: $lat - $thickness;
+.text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
 .loader {
   position: relative;
   width: $size;

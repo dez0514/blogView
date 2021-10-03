@@ -1,8 +1,8 @@
 <template>
   <div class="card-line">
-    <div class="cover" :style="{backgroundImage: `url(${require('../assets/1625043943540.png')})`}"></div>
+    <div class="cover" :style="{backgroundImage: `url(${require('../assets/1625043943540.png')})`}" @click="jumpToDetail"></div>
     <div class="card-line-main">
-      <div class="title">Promise的完全实现</div>
+      <div class="title" @click="jumpToDetail">Promise的完全实现</div>
       <div class="time">6月30日 · 2021年</div>
       <div class="tags">
         <div class="tags-scroll">
@@ -24,6 +24,25 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  data(){
+    return {
+
+    }
+  },
+  methods:{
+    jumpToDetail(){
+      this.$router.push({
+        path: '/article',
+        query:{
+          id:'1'
+        }
+      })
+    }
+  }
+}
+</script>
 <style lang="scss" scoped>
 .card-line {
   display: flex;
@@ -47,6 +66,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50%;
+  cursor: pointer;
 }
 .cover:hover {
     transform: translateY(13px);
@@ -56,9 +76,14 @@
   overflow: hidden;
   color: #475669;
   font-size: 16px;
+  font-weight: 600;
   word-wrap: normal;
   white-space: nowrap;
   text-overflow: ellipsis;
+  cursor: pointer;
+}
+.title:hover {
+  color: #20a0ff;
 }
 .time {
   color: #8492a6;

@@ -40,16 +40,47 @@
             <div class="title">标签</div>
         </div>
         <div class="tags-list">
-            <div class="tags-item" v-for="(item,index) in tags" :key="index">{{item}}</div>
+            <div class="tags-item" v-for="(item,index) in tags" :key="index" @click="jumpToSearch(item)">{{item}}</div>
         </div>
     </div>
+    <div class="tags-wrap" v-if="tabActRoute !== 'archive'">
+        <div class="tags-title">
+            <div class="title">最新</div>
+        </div>
+        <div class="side-art-list">
+          <div class="art-item" v-for="(item,index) in artlist" :key="index" @click="jumpToDetail">
+            <div class="cover" :style="{backgroundImage: `url(${require('../assets/1625043943540.png')})`}"></div>
+            <div>
+              <div class="desc">
+                开发中Promise是及其常用的语法，基本上对于异步的处理大都是通过Promise来进行完成。Promise规范有很多，ES6最终采用的是Promise/A+
+                规范,所以以下代码也基本是基于这个规范来进行编写的。
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="tags-wrap" v-if="tabActRoute === 'archive'">
+        <div class="tags-title">
+            <div class="title">时间轴</div>
+        </div>
+        <div class="side-art-list">
+          <navtime></navtime>
+        </div>
+    </div>
+    
   </div>
 </template>
 <script>
 import { mapState, mapMutations } from "vuex";
+import navtime from './NavTime.vue'
 export default {
   data() {
-    return {};
+    return {
+      artlist: [{},{},{},{},{}]
+    };
+  },
+  components:{
+    navtime
   },
   computed: {
     ...mapState(["showMask", "tablist","tags"]),
@@ -64,6 +95,26 @@ export default {
       this.updateMaskStatus({ showMask: false });
       this.updateSideBarStatus({ sideBarShow: false });
     },
+    jumpToDetail(){
+      this.$router.push({
+        path: '/article',
+        query:{
+          id:'1'
+        }
+      })
+      this.updateMaskStatus({ showMask: false });
+      this.updateSideBarStatus({ sideBarShow: false });
+    },
+    jumpToSearch(item){
+      this.$router.push({
+        path: '/search',
+        query:{
+          keywords: item
+        }
+      })
+      this.updateMaskStatus({ showMask: false });
+      this.updateSideBarStatus({ sideBarShow: false });
+    }
   },
 };
 </script>
@@ -167,5 +218,38 @@ export default {
             background-color: #20a0ff;
         }
     }
+}
+.side-art-list {
+  margin-top: 10px;
+}
+.art-item {
+  display: flex;
+  .cover {
+    overflow: hidden;
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    margin-right: 15px;
+    display: block;
+    border-radius: 8px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    cursor: pointer;
+  }
+  .desc {
+    overflow: hidden;
+    width: 100%;
+    text-shadow: 0 1px #fff;
+    color: #738192;
+    font-size: 14px;
+    transition: .25s;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+  }
+}
+.art-item:not(:first-child) {
+  margin-top: 20px;
 }
 </style>

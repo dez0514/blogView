@@ -6,23 +6,6 @@
     <div class="box">
       <div class="title">Promise的完全实现Promise的完全实现</div>
       <div class="meta">
-        <!-- <div class="summary-container summary-hover">
-          <div class="summary-item df-c summary-item__read">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#iconread"></use></svg
-            ><span>28</span>
-          </div>
-          <div class="summary-item df-c summary-item__like">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#iconlike"></use></svg
-            ><span>1</span>
-          </div>
-          <div class="summary-item df-c summary-item__message">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#iconmessage"></use></svg
-            ><span>0</span>
-          </div>
-        </div> -->
         <time class="time">6月30日 · 2021年</time>
       </div>
       <div class="tags">

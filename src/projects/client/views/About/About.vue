@@ -9,23 +9,23 @@
         <div class="about-content">
           <div class="tips">独揽月下萤火，照亮一纸寂寞</div>
           <ul class="list">
-            <li><span>姓名</span>：<span class="">张旺德</span></li>
-            <li><span>民族</span>：<span class="">汉族</span></li>
-            <li><span>地区</span>：<span class="">上海</span></li>
-            <li><span>籍贯</span>：<span class="">湖北 黄冈</span></li>
-            <li><span>qq</span>：<span class="">2573433803</span></li>
-            <li><span>email</span>：<span class="">2573433803@qq.com</span></li>
-            <li><span>职业</span>：<span class="">切图仔</span></li>
-            <li><span>爱好</span>：<span class="">篮球、撸啊撸、追剧</span></li>
-            <li><span>歌手</span>：<span class="">陈信宏、周杰伦、许嵩</span></li>
-            <li><span>电影</span>：<span class="">武侠、动作、喜剧</span></li>
+            <li><span>姓名</span>：<span>zwd</span></li>
+            <li><span>民族</span>：<span>汉族</span></li>
+            <li><span>地区</span>：<span>上海</span></li>
+            <li><span>籍贯</span>：<span>湖北 黄冈</span></li>
+            <li><span>qq</span>：<span>2573433803</span></li>
+            <li><span>email</span>：<span>2573433803@qq.com</span></li>
+            <li><span>职业</span>：<span>小切图仔</span></li>
+            <li><span>爱好</span>：<span>篮球、LOL、追剧</span></li>
+            <li><span>歌手</span>：<span>陈信宏、周杰伦、许嵩</span></li>
+            <li><span>电影</span>：<span>都看亿点</span></li>
           </ul>
         </div>
         <div class="meta margin-top">
           <div class="title">博客说明</div>
         </div>
         <div class="about-content">
-          <div class="tips">此博客样式，颜色，动画均模仿 <a href='https://dzblog.cn/' target="_blank">Wintermelon's blog</a>,页底已保留版权。效果类似，但样式部分自己写的，部分例如颜色边框阴影及部分动效是抠出来改的，功能自行实现的，请勿喷，只是弄着玩玩无商用。使用vue3 + express + mongodb实现。</div>
+          <div class="tips">此博客样式，颜色，效果均模仿 <a href='https://dzblog.cn/' target="_blank">Wintermelon's blog</a>,页底已保留版权。样式，逻辑，功能，动画都是自己实现的，部分例如颜色边框阴影及部分动效是抠出来改的，勿喷，只是弄着玩玩无商用。使用vue3 + express + mongodb实现。</div>
         </div>
       </div>
     </div>
@@ -169,6 +169,11 @@ export default {
   }
   .list li:nth-child(2n) {
     background-color: #fff;
+  }
+}
+@media screen and (max-width: 450px) {
+  .list li {
+    font-size: 14px;
   }
 }
 </style>

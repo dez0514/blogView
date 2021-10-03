@@ -16,7 +16,7 @@ import vFooter from './components/Vfooter.vue'
 import masks from './components/Mask.vue'
 import sidebar from './components/SideBar.vue'
 // import music from './components/Music.vue'
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 export default {
   data(){
     return {
@@ -35,6 +35,21 @@ export default {
   computed:{
     ...mapState(['sideBarShow','showMask'])
   },
+  methods:{
+    ...mapMutations(['updateMaskStatus','updateSideBarStatus'])
+  },
+  mounted(){
+    window.addEventListener('resize',()=>{
+      let w = window.innerWidth;
+      if(w > 990) {
+        this.updateMaskStatus({ showMask: false });
+        this.updateSideBarStatus({ sideBarShow: false });
+      }
+    })
+  },
+  unmounted(){
+    window.removeEventListener('resize',()=>{})
+  },
   components: {
     vHeader,
     vFooter,
@@ -51,17 +66,18 @@ export default {
 }
 .main-wrap {
   position: relative;
+  box-sizing: border-box;
   width: 100%;
   overflow: hidden;
   padding: 80px 40px 50px 40px;
-  min-height: calc(100vh - 80px - 50px - 138px);
+  min-height: calc(100vh - 138px);
   transform-origin: left 450px;
   transition: transform .5s;
 }
 @media screen and (max-width: 990px) {
   .main-wrap {
     padding: 58px 0 10px 0;
-    min-height: calc(100vh - 58px - 10px - 60px);  
+    min-height: calc(100vh - 60px);  
   }
 }
 .anim {

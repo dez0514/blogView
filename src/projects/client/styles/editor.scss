@@ -20,6 +20,9 @@ p img {
 .CodeMirror {
   height: 300px;
 }
+.markdown-body {
+  position: relative;
+}
 .markdown-body pre.code{
     padding: 50px 14px 10px 60px;
 }
@@ -27,14 +30,11 @@ p img {
 //   overflow: auto;
 // }
 pre.code {
-  overflow: auto;
+  overflow: hidden;
   position: relative;
   border-radius: 5px;
   color: #eaeaea;
   background-color: #283646;
-  code {
-    line-height: 1.4 !important;
-  }
   ol.pre-numbering {
     position: absolute;
     top: 0;
@@ -89,4 +89,11 @@ pre.code::before {
   transform: translateX(-50%);
   top: 0;
   line-height: 30px;
+}
+.markdown-body pre code {
+  display: inline-block;
+  box-sizing: border-box;
+  overflow-x: auto;
+  line-height: 1.4 !important;
+  width: 100%;
 }

@@ -5,17 +5,34 @@ const routes = [
   {
     path: '/',
     name: 'home',
+    meta: {
+      title: '首页'
+    },
     component: Home
   },
   {
     path: '/archive',
     name: 'archive',
+    meta: {
+      title: '博客归档'
+    },
     component: () => import('../views/Archive/Archive.vue')
   },
   {
     path: '/about',
     name: 'about',
+    meta: {
+      title: '关于我'
+    },
     component: () => import('../views/About/About.vue')
+  },
+  {
+    path: '/search',
+    name: 'search',
+    meta: {
+      title: '搜索'
+    },
+    component: () => import('../views/Search/Search.vue')
   },
   // {
   //   path: '/comment',
@@ -25,6 +42,9 @@ const routes = [
   {
     path: '/article',
     name: 'article',
+    meta: {
+      title: '文章详情'
+    },
     component: () => import(/* webpackChunkName: "about" */ '../views/Article/ArticleDetail.vue')
   }
 ]

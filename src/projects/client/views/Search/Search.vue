@@ -5,11 +5,6 @@
       <loading></loading>
     </div> -->
     <div class="home-main">
-      <div class="home-nav">
-        <div :class="['nav-wraper',showFix ? 'fix-nav':'']">
-          <navtags></navtags>
-        </div>
-      </div>
       <div class="card-list">
         <card></card>
         <card></card>
@@ -31,50 +26,31 @@ import banner from '../../components/Banner.vue'
 import pagination from '../../components/Pagination.vue'
 import loading from '../../components/Loading.vue'
 import card from '../../components/Card.vue'
-import navtags from '../../components/NavTags.vue'
 export default {
   name: 'Home',
   components: {
     pagination,
     loading,
     card,
-    banner,
-    navtags
+    banner
   },
   data() {
     return {
-      scroll: '',
-      showFix: false
+      
     }
   },
-  watch: {
-    scroll() {
-      this.updateShowFix();
-    },
+  computed: {
+      querywords() {
+          return this.$route.query.keywords || ''
+      }
   },
   mounted() {
-    this.updateShowFix();
-    window.addEventListener("scroll", () => {
-      this.updateShowFix();
-    });
+      console.log(this.querywords)
   },
   unmounted() {
-    window.removeEventListener("scroll", () => {});
   },
   methods: {
-    onchange(val) {
-      console.log(val)
-    },
-    updateShowFix() {
-      let top = document.documentElement.scrollTop || document.body.scrollTop;
-      this.scroll = top;
-      // console.log(top)
-      if (top > 363) {
-        this.showFix = true;
-      } else {
-        this.showFix = false;
-      }
-    },
+   
   }
 }
 </script>
@@ -92,22 +68,6 @@ export default {
 .home-main {
   display: flex;
 }
-
-.home-nav {
-  box-sizing: border-box;
-  padding-top: 15px;
-  width: 200px;
-}
-.nav-wraper {
-  box-sizing: border-box;
-  overflow: hidden;
-  overflow-y: auto;
-  max-height: calc(100vh - 58px - 138px - 50px);
-}
-.fix-nav {
-  position: fixed;
-  top: 58px;
-}
 @media screen and (max-width:1600px) {
   .card-list {
     grid-template-columns: repeat(4, calc((100% - 90px) / 4));
@@ -123,9 +83,6 @@ export default {
 @media screen and (max-width:990px) {
   .home-main {
     padding: 0 10px;
-  }
-  .home-nav {
-    display: none;
   }
   .card-list {
     grid-template-columns: repeat(3, calc((100% - 40px) / 3));

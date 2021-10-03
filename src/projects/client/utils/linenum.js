@@ -1,5 +1,5 @@
 import $ from 'jquery'
-// import Vue from 'vue'
+import { ElNotification } from 'element-plus'
 export const addCodeBtn = _ => {
 	//markdown代码存放在pre code 标签对中
   $('pre code').each(function () {
@@ -30,8 +30,11 @@ export const addCodeBtn = _ => {
     document.execCommand('Copy')
     element.remove()
     //这里是自定义的消息通知组件
-    // Vue.prototype.$notice.success({
-    //   msg: '代码复制成功'
-    // })
+    ElNotification({
+      title: '提示',
+      message: '代码复制成功',
+      type: 'success',
+      position: 'bottom-right'
+    })
   })
 }

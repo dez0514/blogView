@@ -1,26 +1,26 @@
 <template>
-  <div class="detail">
+  <div class="detail" v-show="!loadState.isShow">
     <banner></banner>
     <div class="container">
-      <div class="tocs">
-        <div class="toc-wrap" v-if="toc && showFix">
-          <div v-html="toc"></div>
-        </div>
-        <div class="toc-wrap toc-wrap-fix" v-if="toc && !showFix">
+      <div class="tocs" v-if="toc">
+        <div :class="['toc-wrap', showFix ? '' : 'toc-wrap-fix']" id="tocs">
           <div v-html="toc"></div>
         </div>
       </div>
-      <div class="content-wrap">
+      <div class="content-wrap" id="content">
         <div class="markdown-body" v-html="content"></div>
       </div>
     </div>
   </div>
+  <loading :state="loadState" @refresh="getAirticleDetailData"></loading>
 </template>
 <script>
 import banner from "../../components/Banner.vue";
 import { getAirticleDetail } from "../../api";
 import { addCodeBtn } from "../../utils/linenum";
 import markdown from "../../utils/markdown";
+import loading from "../../components/Loading.vue";
+import $ from "jquery";
 export default {
   name: "detail",
   data() {
@@ -30,11 +30,17 @@ export default {
       toc: "",
       showFix: false,
       scroll: "",
-      activeName: ''
+      activeName: "",
+      loadState: {
+        isShow: false,
+        status: 0,
+      },
+      // scrollTimer: null
     };
   },
   components: {
     banner,
+    loading,
   },
   computed: {
     id() {
@@ -42,7 +48,6 @@ export default {
     },
   },
   watch: {
-    //监听scroll变量，只要滚动条位置变化就会执行方法loadScroll
     scroll() {
       this.loadScroll();
     },
@@ -57,18 +62,59 @@ export default {
   },
   unmounted() {
     window.removeEventListener("scroll", () => {});
+    // if(this.scrollTimer) {
+    //   clearTimeout(this.scrollTimer);
+    // }
   },
   methods: {
+    initLiClick() {
+      let tocLi = $("#tocs ul li");
+      for (let k = 0; k < tocLi.length; k++) {
+        $(tocLi[k]).click(()=>{
+          let domid = $(tocLi[k])[0].id
+          let arr = $("#content :header");
+          let dom = null;
+          for(let i = 0;i<arr.length;i++) {
+            if($(arr[i])[0].id == domid) {
+              dom = $(arr[i]);
+              break;
+            }
+          }
+          this.scrollToLocation(dom)
+        })
+      }
+    },
+    scrollToLocation(dom) {
+      let top = dom[0].offsetTop
+      window.scrollTo({top: top - 50, behavior: 'smooth'});
+    },
     loadScroll() {
-      //1. id=toc##11, href=id 一一对应
-      //2. id在可视区域内 给对应href的父元素 高亮
-      // let sections = document.getElementsByClassName("section");
-      // for (var i = sections.length - 1; i >= 0; i--) {
-      //   if (this.scroll >= sections[i].offsetTop - 100) {
-      //     this.activeName = "tab" + i;
-      //     break;
-      //   }
+      // if(this.scrollTimer) {
+      //   clearTimeout(this.scrollTimer);
       // }
+      // this.scrollTimer = setTimeout(() => {
+        let arr = $("#content :header"); // 找到所有的h1,h2...
+        for (let i = arr.length - 1; i >= 0; i--) {
+          if (this.scroll >= arr[i].offsetTop - 100) {
+            // 距离调整一下
+            this.activeName = arr[i].id;
+            // console.log(this.scroll, arr[i].offsetTop);
+            break;
+          }
+        }
+        let tocLi = $("#tocs ul li");
+        for (let k = 0; k < tocLi.length; k++) {
+          if (this.activeName !== "" && tocLi[k].id == this.activeName) {
+            for (let j = 0; j < tocLi.length; j++) {
+              if ($(tocLi[j]).hasClass("active")) {
+                $(tocLi[j]).removeClass("active");
+              }
+            }
+            $(tocLi[k]).addClass("active"); //找到li添加active
+            break;
+          }
+        }
+      // }, 300);
     },
     updateShowFix() {
       let top = document.documentElement.scrollTop || document.body.scrollTop;
@@ -82,16 +128,24 @@ export default {
     },
     async getAirticleDetailData() {
       try {
+        this.loadState.isShow = true;
+        this.loadState.status = 0;
         const params = {
           id: this.id,
         };
         const { data } = await getAirticleDetail(params);
+        setTimeout(() => {
+          this.loadState.isShow = false;
+        }, 2000);
         if (data.code == 0) {
           this.detail = data.data;
           const article = markdown.marked(data.data.content);
           article.then((res) => {
             this.content = res.content;
             this.toc = res.toc;
+            this.$nextTick(()=>{
+              this.initLiClick()
+            })
             // console.log(res.toc);
             this.$nextTick(() => {
               addCodeBtn();
@@ -104,6 +158,8 @@ export default {
           });
         }
       } catch {
+        this.loadState.isShow = true;
+        this.loadState.status = 2;
         this.$message({
           type: "error",
           message: "网络错误（getAirticleDetail）",
@@ -119,6 +175,7 @@ export default {
   position: relative;
   box-sizing: border-box;
   display: flex;
+  transition: all 2s;
 }
 .toc-wrap {
   margin-top: 20px;
@@ -143,6 +200,11 @@ export default {
     margin-top: -40px; /*和顶部fixed的高度一致*/
   }
 }
+.toc-wrap {
+  overflow: hidden;
+  overflow-y: auto;
+  max-height: calc(100vh - 58px);
+}
 :deep(.toc-wrap) div > .anchor-ul {
   padding: 0.1px 0 20px;
   margin-left: 5px;
@@ -152,11 +214,15 @@ export default {
     display: inline-block;
     position: relative;
     margin: 20px 0 5px -5px;
+    padding-right: 16px;
     filter: drop-shadow(0 1px 0 rgba(31, 45, 61, 0.2))
       drop-shadow(0 -1px 0 #fff) drop-shadow(5px 6px 5px rgba(31, 45, 61, 0.1));
     color: #8492a6;
     .toc-item {
       max-width: 180px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       display: inline-block;
       font-weight: 700;
       background: linear-gradient(90deg, #fff, #f0f2f7 6px, #d8e0ea);
@@ -165,24 +231,40 @@ export default {
       height: 34px;
       padding: 0 12px 0 20px;
       border-bottom-left-radius: 5px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       vertical-align: bottom;
       text-shadow: 0 1px #fff;
       -webkit-transition: 0.25s;
       transition: 0.25s;
+      cursor: pointer;
     }
     .toc-item::after {
       content: "";
       position: absolute;
-      right: -16px;
+      top: 0;
+      right: 0;
       display: inline-block;
       border: 17px solid #d8e0ea;
       border-left-width: 8px;
       border-right: 8px solid transparent;
       border-bottom: 17px solid transparent;
       vertical-align: bottom;
+    }
+  }
+  > li.active {
+    color: #fff;
+    filter: drop-shadow(0 1px 0 #0394ff)
+      drop-shadow(6px 7px 8px rgba(32, 160, 255, 0.4));
+    .toc-item {
+      background: linear-gradient(90deg, #76d5ff, #20baff 6px, #0394ff);
+      text-shadow: 0 1px #0084e6;
+      color: #fff;
+    }
+    .toc-item::after {
+      content: "";
+      border: 17px solid #0394ff;
+      border-left-width: 8px;
+      border-right: 8px solid transparent;
+      border-bottom: 17px solid transparent;
     }
   }
   .anchor-ul li {
@@ -192,16 +274,15 @@ export default {
       display: inline-block;
       padding: 10px 0 10px 20px;
       position: relative;
-      color: rgba(31, 45, 61, 0.2);
+      color: #657487;
       transition: 0.3s;
-      a {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 205px;
-        font-size: 14px;
-        line-height: 36px;
-      }
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 205px;
+      font-size: 14px;
+      line-height: 36px;
+      cursor: pointer;
     }
     .toc-item::before {
       content: "";
@@ -218,7 +299,32 @@ export default {
       transition: 0.3s;
     }
   }
+  .anchor-ul li.active {
+    text-shadow: 0 1px #fff;
+    .toc-item {
+      color: #20a0ff;
+      font-weight: 600;
+    }
+    .toc-item::before {
+      content: "";
+      width: 17px;
+      height: 10px;
+      border-radius: 4px 100% 100% 4px/4px 80% 80% 4px;
+      border: 1px solid #20a0ff;
+      background: #59b8ff;
+      box-shadow: 0 1px #76d5ff inset, 0 2px 3px rgba(32, 160, 255, 0.3);
+      left: -3px;
+      display: block;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: 0.3s;
+    }
+  }
   li:hover * {
+    color: #409eff;
+  }
+  .anchor-ul li:hover * {
     color: #409eff;
   }
 }

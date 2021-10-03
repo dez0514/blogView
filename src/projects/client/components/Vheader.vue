@@ -86,7 +86,7 @@
                     ></path>
                   </svg>
                 </svg>
-                <input type="text" placeholder="输入关键字搜索" />
+                <input type="text" v-model="keywords" placeholder="输入关键字搜索" @keyup.enter="jumpToSearch"/>
                 <svg class="icon" style="cursor: pointer" @click="handleClose">
                   <svg id="iconclose" viewBox="0 0 1024 1024">
                     <path
@@ -130,7 +130,7 @@
                 ></path>
               </svg>
             </svg>
-            <input type="text" placeholder="输入关键字搜索" />
+            <input type="text" placeholder="输入关键字搜索" style="font-size:14px" v-model="keywords" @keyup.enter="jumpToSearch"/>
             <svg class="icon" style="cursor: pointer" @click="handleClose">
               <svg id="iconclose" viewBox="0 0 1024 1024">
                 <path
@@ -164,7 +164,8 @@ export default {
       showSearch: false,
       headerBg: false,
       showTop: false,
-      animal: ''
+      animal: '',
+      keywords: ''
     };
   },
   watch:{
@@ -174,6 +175,12 @@ export default {
       } else {
         this.animal = 'out'
       }
+    },
+    '$route'(val){
+      let findex = this.tablist.findIndex(
+        (item) => item.routename == val.name
+      );
+      this.hoverIndex = findex;
     }
   },
   computed: {
@@ -198,7 +205,19 @@ export default {
             this.$refs.tabs.children[this.hoverIndex].offsetLeft
           }px`
         : 0;
-    },
+    }
+  },
+   mounted() {
+    setTimeout(() => {
+      let findex = this.tablist.findIndex(
+        (item) => item.routename == this.$route.name
+      );
+      this.hoverIndex = findex;
+    }, 100);
+    window.addEventListener('scroll',this.scrollToTop)
+  },
+  unmounted() {
+    window.removeEventListener('scroll',()=>{})
   },
   methods: {
     ...mapMutations(["updateMaskStatus", "updateSideBarStatus"]),
@@ -210,6 +229,18 @@ export default {
     routerSwitch(item, index) {
       this.hoverIndex = index;
       this.$router.push({ name: item.routename });
+    },
+    jumpToSearch(){
+      this.$router.push({
+        path: '/search',
+        query:{
+          keywords: this.keywords
+        }
+      })
+      this.updateMaskStatus({ showMask: false });
+      this.updateSideBarStatus({ sideBarShow: false });
+      this.showSearch = false
+      this.keywords = ''
     },
     routerHover(index) {
       // console.log(index)
@@ -260,18 +291,6 @@ export default {
         this.headerBg = false
       }
     },
-  },
-  mounted() {
-    setTimeout(() => {
-      let findex = this.tablist.findIndex(
-        (item) => item.routename == this.$route.name
-      );
-      this.hoverIndex = findex;
-    }, 100);
-    window.addEventListener('scroll',this.scrollToTop)
-  },
-  unmounted() {
-    window.removeEventListener('scroll')
   }
 };
 </script>
@@ -347,14 +366,13 @@ export default {
 .header-wrapper {
   z-index: 18;
   box-sizing: border-box;
-  overflow: hidden;
   // padding-bottom: 2px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
-  /* height: 57px; */
+  height: 58px;
 }
 .header-box {
   box-sizing: border-box;
