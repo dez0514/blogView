@@ -16,7 +16,8 @@
   </div>
 </template>
 <script>
-const Swiper = window.Swiper;
+import { Swiper } from 'swiper';
+import 'swiper/swiper.min.css';
 import banner from './Banner.vue'
 export default {
   data() {
