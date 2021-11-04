@@ -1,5 +1,23 @@
 import fetch from '../../../request/fetch'
+import { baseUrl } from '../../../request/getUrls'
+
 import qs from 'qs'
+// 文章列表
+export const getArtList = (data) => {
+    return fetch({
+        url: `${baseUrl}/api/article_list`,
+        method: 'get',
+        params: data,
+    })
+}
+//文章详情
+export const getArtDetail = (data) => {
+    return fetch({
+        url: `${baseUrl}/api/article_detail`,
+        method: 'get',
+        params: data,
+    })
+}
 
 export const getTags = (data) => {
     return fetch({

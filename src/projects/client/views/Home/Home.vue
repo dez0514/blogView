@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <banner></banner>
+    <swiperbanner></swiperbanner>
+    <!-- <banner></banner> -->
     <!-- <div class="load-wrap" style="position:relative;height:300px">
       <loading></loading>
     </div> -->
@@ -28,10 +29,12 @@
 
 <script>
 import banner from '../../components/Banner.vue'
+import swiperbanner from '../../components/BannerSwiper.vue'
 import pagination from '../../components/Pagination.vue'
 import loading from '../../components/Loading.vue'
 import card from '../../components/Card.vue'
 import navtags from '../../components/NavTags.vue'
+import { getArtList } from '../../api/index'
 export default {
   name: 'Home',
   components: {
@@ -39,6 +42,7 @@ export default {
     loading,
     card,
     banner,
+    swiperbanner,
     navtags
   },
   data() {
@@ -57,6 +61,9 @@ export default {
     window.addEventListener("scroll", () => {
       this.updateShowFix();
     });
+    getArtList().then(res => {
+      console.log(res)
+    })
   },
   unmounted() {
     window.removeEventListener("scroll", () => {});

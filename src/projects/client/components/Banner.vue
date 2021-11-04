@@ -10,6 +10,10 @@
                 <div class="tags" v-if="tags.length > 0">
                     <div class="tag-name" v-for="(item,index) in tags" :key="index">{{item}}</div>
                 </div>
+                <!-- <div class="detail-btn">
+                    <i class="el-icon-right"></i>
+                    <div>阅读全文</div>
+                </div> -->
             </div>
             <div class="ban-right">
                 <img :src="require('../assets/me.jpeg')" alt="">
@@ -123,6 +127,28 @@ export default {
         padding: 3px 0;
         color: #fff;
     }
+}
+.detail-btn {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    width: 102px;
+    text-decoration: none;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 7px;
+    -webkit-transition: .25s;
+    transition: .25s;
+    margin-top: 5px;
+    i {
+        margin-right: 5px;
+    }
+}
+.detail-btn:hover {
+    background-color: #fff;
+    color: #20a0ff;
 }
 .ban-cover {
     overflow: hidden;

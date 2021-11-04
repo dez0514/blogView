@@ -6,8 +6,16 @@
       <el-input class="inpt" v-model="artTitle" placeholder="请输入文章标题"></el-input>
     </div>
     <div class="inpt-wrap">
+      <div class="label">小标题:</div>
+      <el-input class="inpt" v-model="smallTitle" placeholder="请输入小标题"></el-input>
+    </div>
+    <div class="inpt-wrap">
       <div class="label">文章封面:</div>
       <el-input class="inpt" v-model="artCover" placeholder="请输入文章封面图片地址"></el-input>
+    </div>
+     <div class="inpt-wrap">
+      <div class="label">git地址:</div>
+      <el-input class="inpt" v-model="gitlink" placeholder="请输入git地址"></el-input>
     </div>
     <div class="inpt-wrap top tags">
       <div class="label">选择标签:</div>
@@ -15,8 +23,8 @@
         <el-option
           v-for="(item,index) in tagsOptions"
           :key="index"
-          :label="item.tagname"
-          :value="item.tagname"
+          :label="item.name"
+          :value="item.name"
         >
         </el-option>
       </el-select>
@@ -37,6 +45,12 @@
           <div class="pop-label">标签名：</div>
           <div class="pop-input">
             <el-input placeholder="请输入标签名称" v-model="tagname" clearable></el-input>
+          </div>
+        </div>
+        <div class="pop-flex margintop">
+          <div class="pop-label">icon：</div>
+          <div class="pop-input">
+            <el-input placeholder="请输入icon地址" v-model="tagicon" clearable></el-input>
           </div>
         </div>
         <div class="pop-flex margintop">
@@ -64,16 +78,19 @@
 </template>
 <script>
 import simple from '../../components/Simplemde.vue'
-import {getTags,addTags,postAirticle,updateAirticle } from '../../api'
+import {getTagList,addNewTag,addNewArticle,updateAirticle } from '../../api'
 export default {
   data() {
     return {
       showAddPop: false,
       artTitle: '',
-      artCover: 'http://localhost:5000/serverImage/1625043943540.png',
+      smallTitle: '',
+      artCover: 'http://localhost:5001/serverImage/1625043943540.png',
+      gitlink: '',
       tagssec: [],
       tagname: '',
       tagcolor: null,
+      tagicon: '',
       tagsOptions: [],
       addload: false,
       subload: false
@@ -87,11 +104,11 @@ export default {
       this.tagname = ''
       this.tagcolor = null
     },
-    async getTagsList() {
+    async getTagsData() {
       try {
-        const { data } = await getTags();
+        const { data } = await getTagList();
         console.log(data)
-        if(data.code === 0) {
+        if(Number(data.code) === 0) {
           this.tagsOptions = data.data
         }
       } catch {}
@@ -105,10 +122,11 @@ export default {
       try {
         this.addload = true
         const params = {
-          tagname: this.tagname,
-          color: this.tagcolor
+          name: this.tagname,
+          color: this.tagcolor,
+          icon: this.tagicon
         }
-        const { data } = await addTags(params);
+        const { data } = await addNewTag(params);
         this.addload = false
         if(data.code === 0) {
           this.$message({
@@ -116,7 +134,7 @@ export default {
             message: data.message
           })
           this.showAddPop = false
-          this.getTagsList()
+          this.getTagsData()
         } else {
           this.$message({
             type: 'error',
@@ -157,12 +175,14 @@ export default {
       try {
         const params = {
           title: this.artTitle,
+          smallTitle: this.smallTitle,
+          gitlink: this.gitlink,
           banner: this.artCover,
           content: this.$refs.simplemde.smde.value(),
           tags: Array.from(this.tagssec).join(','),
           author: 'zwd'
         }
-        const { data } = await postAirticle(params);
+        const { data } = await addNewArticle(params);
         this.subload = false
         this.$message({
           type: data.code == 0 ? 'success': 'error',
@@ -172,7 +192,7 @@ export default {
         this.subload = false
         this.$message({
           type: 'error',
-          message: '网络错误（postAirticle）'
+          message: '网络错误（addNewArticle）'
         })
       }
     },
@@ -224,7 +244,7 @@ export default {
     }
   },
   mounted() {
-    this.getTagsList()
+    this.getTagsData()
   }
 };
 </script>
@@ -247,6 +267,7 @@ export default {
   .label {
     word-wrap: none;
     padding-right: 20px;
+    min-width: 80px;
   }
   &.top .label {
       margin-top: 9px;

@@ -11,6 +11,12 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
     <!-- <script src="http://cdn.jsdelivr.net/eruda/1.0.5/eruda.min.js"></script>
     <script>eruda.init();</script> -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">    
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"> </script>
+    <script>
+      window.Swiper = Swiper
+      // 尽力了，模块方式引入找不到模块。。。可能是由于webpack配置影响了路径，按道理来说应该会一层层往上找node-modules,但是不知道为啥明明有但是找不到
+    </script>
   </head>
   <body>
     <noscript>
