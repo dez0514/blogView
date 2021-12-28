@@ -1,12 +1,12 @@
 <template>
 <div class="container" :class="showMask ? 'disable-scroll':''">
-  <masks></masks>
   <v-header></v-header>
-  <div :class="['main-wrap',animal == 'in' ? 'anim': animal == 'out' ? 'animb':'']">
+  <div :class="['main-wrap',animal == 'in' ? 'anim': animal == 'out' ? 'animb':'',showMask ? 'disable-scroll':'']">
     <router-view/>
   </div>
   <v-footer></v-footer>
   <!-- <music></music> -->
+  <masks></masks>
   <sidebar></sidebar>
 </div>
 </template>
