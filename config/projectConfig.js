@@ -1,3 +1,4 @@
+const path = require('path')
 const config = {
     admin: {
       pages: {
@@ -107,12 +108,12 @@ const config = {
         // set svg-sprite-loader
         config.module
           .rule('svg')
-          .exclude.add(resolve('src/projects/client/assets/icons'))
+          .exclude.add(path.resolve('src/projects/client/assets/icons'))
           .end()
         config.module
           .rule('icons')
           .test(/\.svg$/)
-          .include.add(resolve('src/projects/client/assets/icons'))
+          .include.add(path.resolve('src/projects/client/assets/icons'))
           .end()
           .use('svg-sprite-loader')
           .loader('svg-sprite-loader')
