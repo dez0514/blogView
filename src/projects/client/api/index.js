@@ -43,7 +43,7 @@ export const getAirticle = (data) => {
 
 export const getAirticleDetail = (data) => {
     return fetch({
-        url: 'http://localhost:5001/api/article_list_detail',
+        url: 'http://localhost:5001/api/article_detail',
         method: 'get',
         params: data,
     })
