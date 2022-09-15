@@ -35,7 +35,7 @@ export const addTags = (params) => {
 
 export const getAirticle = (data) => {
     return fetch({
-        url: 'http://localhost:5000/api/article_list',
+        url: 'http://localhost:5001/api/article_list',
         method: 'get',
         params: data,
     })
@@ -43,7 +43,7 @@ export const getAirticle = (data) => {
 
 export const getAirticleDetail = (data) => {
     return fetch({
-        url: 'http://localhost:5000/api/article_list_detail',
+        url: 'http://localhost:5001/api/article_detail',
         method: 'get',
         params: data,
     })
@@ -52,7 +52,7 @@ export const getAirticleDetail = (data) => {
 
 export const postAirticle = (params) => {
     let data = qs.stringify(params)
-    return fetch.post(`http://localhost:5000/api/add_article`, data, {headers: {
+    return fetch.post(`http://localhost:5001/api/add_article`, data, {headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
     }});
 }
@@ -60,7 +60,7 @@ export const postAirticle = (params) => {
 
 export const updateAirticle = (params) => {
     let data = qs.stringify(params)
-    return fetch.post(`http://localhost:5000/api/update_article`, data, {headers: {
+    return fetch.post(`http://localhost:5001/api/update_article`, data, {headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
     }});
 }

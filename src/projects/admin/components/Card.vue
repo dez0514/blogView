@@ -1,7 +1,7 @@
 <template>
   <div class="card-wrap">
     <div class="cover">
-      <img src="http://localhost:5000/serverImage/1625043943540.png" alt="" />
+      <img src="http://localhost:5001/serverImage/1625043943540.png" alt="" />
       <div class="mask">
         <div style="margin-top: 116px;text-align:center">
           <el-button type="primary" size="mini">查看</el-button>
